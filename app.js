@@ -60,6 +60,10 @@ const registerForm = document.getElementById('register-form'); // Formulário de
 const bookingForm = document.getElementById('booking-form'); // Formulário de reserva
 const bookingDetails = document.getElementById('booking-details'); // Div com detalhes da reserva
 const searchBtn = document.getElementById('search-btn'); // Botão de busca
+const destinationInput = document.getElementById('destination-input');
+const checkinInput = document.getElementById('checkin-input');
+const checkoutInput = document.getElementById('checkout-input');
+const guestsSelect = document.getElementById('guests-select');
 
 // Variáveis globais
 // Variável global que guardará o destino que o usuário está tentando reservar.
@@ -417,3 +421,232 @@ alidação de formulários
 Chamadas à API para buscar dados reais
 Lógica para enviar reservas
  Tratamento de erros */
+
+// Função para validar as datas
+function validateDates(checkin, checkout) {
+  if (!checkin || !checkout) {
+    alert('Por favor, selecione ambas as datas');
+    return false;
+  }
+
+  const checkinDate = new Date(checkin);
+  const checkoutDate = new Date(checkout);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  if (checkinDate < today) {
+    alert('A data de check-in não pode ser no passado');
+    return false;
+  }
+
+  if (checkoutDate <= checkinDate) {
+    alert('A data de check-out deve ser após o check-in');
+    return false;
+  }
+
+  return true;
+}
+
+// Função para formatar a data (opcional)
+function formatDate(dateString) {
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return new Date(dateString).toLocaleDateString('pt-BR', options);
+}
+
+// Função para realizar a busca
+async function performSearch(searchParams) {
+  try {
+    // Simulação de busca (substitua pela chamada real à API)
+    console.log('Parâmetros de busca:', searchParams);
+
+    // Exemplo com fetch (descomente e adapte para sua API):
+    /*
+    const response = await fetch('https://sua-api.com/search', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(searchParams),
+    });
+    
+    if (!response.ok) throw new Error('Erro na busca');
+    
+    const data = await response.json();
+    return data;
+    */
+
+    // Simulação de retorno de busca
+    const mockResults = [
+      {
+        id: 101,
+        name: "Hotel Exemplo em " + searchParams.destination,
+        location: searchParams.destination,
+        price: 300 + Math.floor(Math.random() * 200),
+        image: "https://source.unsplash.com/random/300x200/?hotel", // https://images.unsplash.com/photo-1522708323590-d24dbb6b0267
+        description: "Ótima opção para sua estadia em " + searchParams.destination,
+        amenities: "Wi-Fi, Ar-condicionado, TV"
+      }
+      // Adicione mais resultados simulados se desejar
+    ];
+
+    return mockResults;
+  } catch (error) {
+    console.error('Erro na busca:', error);
+    throw error;
+  }
+}
+
+// Função para exibir os resultados
+function displaySearchResults(results) {
+  const destinationsContainer = document.getElementById('destinations-container');
+
+  if (!results || results.length === 0) {
+    destinationsContainer.innerHTML = '<p class="no-results">Nenhum resultado encontrado. Tente alterar seus critérios de busca.</p>';
+    return;
+  }
+
+  destinationsContainer.innerHTML = '';
+
+  results.forEach(result => {
+    const card = document.createElement('div');
+    card.className = 'destination-card';
+    card.innerHTML = `
+      <div class="destination-image" style="background-image: url('${result.image}')"></div>
+      <div class="destination-info">
+        <h3>${result.name}</h3>
+        <div class="destination-location">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>${result.location}</span>
+        </div>
+        <div class="destination-price">R$ ${result.price.toFixed(2)} <span>por noite</span></div>
+        <button class="book-btn" data-id="${result.id}">Reservar</button>
+      </div>
+    `;
+    destinationsContainer.appendChild(card);
+  });
+}
+
+// Evento de clique no botão de busca
+searchBtn.addEventListener('click', async function () {
+  // Obtém os valores dos campos
+  const destination = destinationInput.value.trim();
+  const checkin = checkinInput.value;
+  const checkout = checkoutInput.value;
+  const guests = guestsSelect.value;
+
+  // Validação básica
+  if (!destination) {
+    alert('Por favor, informe o destino');
+    return;
+  }
+
+  if (!validateDates(checkin, checkout)) {
+    return;
+  }
+
+  // Mostra feedback visual (opcional)
+  searchBtn.disabled = true;
+  searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Buscando...';
+
+  try {
+    // Prepara os parâmetros de busca
+    const searchParams = {
+      destination,
+      checkin,
+      checkout,
+      guests: parseInt(guests)
+    };
+
+    // Realiza a busca
+    const results = await performSearch(searchParams);
+
+    // Exibe os resultados
+    displaySearchResults(results);
+
+    // Feedback visual
+    const resultsTitle = document.querySelector('.popular-destinations h2');
+    if (resultsTitle) {
+      resultsTitle.textContent = `Resultados para ${destination}`;
+    }
+
+  } catch (error) {
+    alert('Ocorreu um erro na busca: ' + error.message);
+  } finally {
+    // Restaura o botão
+    searchBtn.disabled = false;
+    searchBtn.textContent = 'Buscar';
+  }
+});
+
+// Evento para permitir busca ao pressionar Enter
+destinationInput.addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    searchBtn.click();
+  }
+});
+
+// 4. Explicação do Funcionamento
+
+//     Seleção de Elementos:
+
+//         Capturamos todos os campos do formulário de busca
+
+//     Validação:
+
+//         validateDates(): Verifica se as datas são válidas
+
+//         Validação básica do destino
+
+//     Processamento da Busca:
+
+//         performSearch(): Simula/envia os parâmetros para o backend
+
+//         Na implementação real, você faria uma chamada API aqui
+
+//     Exibição de Resultados:
+
+//         displaySearchResults(): Atualiza a lista de destinos com os resultados
+
+//         Mostra mensagem quando não há resultados
+
+//     Feedback Visual:
+
+//         Botão muda durante o carregamento
+
+//         Tratamento de erros com mensagens
+
+// 5. Próximos Passos para Implementação Completa
+
+//     Integração com Backend:
+
+//         Substitua a simulação por chamadas reais à sua API
+
+//         Implemente paginação para muitos resultados
+
+//     Filtros Avançados:
+
+//         Adicione filtros por preço, avaliação, comodidades
+
+//         Implemente ordenação dos resultados
+
+//     Melhorias de UX:
+
+//         Adicione auto-complete para destinos
+
+//         Implemente calendário interativo para seleção de datas
+
+//     Histórico de Buscas:
+
+//         Armazene buscas recentes
+
+//         Permita fácil reutilização de buscas anteriores
+
+//     Mapa de Resultados:
+
+//         Mostre os resultados em um mapa (Google Maps, Mapbox)
+
+//         Filtre por localização no mapa
+
+// Esta implementação fornece uma base completa para o funcionamento da busca,
+// desde a captura dos parâmetros até a exibição dos resultados, com validações
+// e feedback para o usuário.

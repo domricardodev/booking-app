@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TravelStay - Encontre sua próxima viagem</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body onload="showRegisterModal()">
+  <header>
+    <div class="container">
+      <div class="logo">
+        <i class="fas fa-plane"></i>
+        <span>TravelStay</span>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" class="active">Início</a></li>
+          <li><a href="#">Destinos</a></li>
+          <li><a href="#">Ofertas</a></li>
+          <li><a href="#">Contato</a></li>
+          <li><button id="login-btn">Entrar</button></li>
+          <li><button id="register-btn">Cadastrar</button></li>
+        </ul>
+      </nav>
+      <div class="mobile-menu">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Encontre a hospedagem perfeita para sua viagem</h1>
+      <p>Descubra milhares de hotéis, pousadas e resorts pelo melhor preço</p>
+
+      <div class="search-box">
+        <div class="search-field">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" placeholder="Para onde você vai?" id="destination-input">
+        </div>
+        <div class="search-field">
+          <i class="fas fa-calendar-alt"></i>
+          <input type="text" placeholder="Check-in" id="checkin-input" onfocus="(this.type='date')">
+        </div>
+        <div class="search-field">
+          <i class="fas fa-calendar-alt"></i>
+          <input type="text" placeholder="Check-out" id="checkout-input" onfocus="(this.type='date')">
+        </div>
+        <div class="search-field">
+          <i class="fas fa-user"></i>
+          <select id="guests-select">
+            <option value="1">1 hóspede</option>
+            <option value="2" selected>2 hóspedes</option>
+            <option value="3">3 hóspedes</option>
+            <option value="4">4 hóspedes</option>
+            <option value="5">5+ hóspedes</option>
+          </select>
+        </div>
+        <button id="search-btn">Buscar</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="popular-destinations">
+    <div class="container">
+      <h2>Destinos Populares</h2>
+      <div class="destinations-grid" id="destinations-container">
+        <!-- Destinos serão carregados dinamicamente aqui -->
+      </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <div class="feature-card">
+        <i class="fas fa-medal"></i>
+        <h3>Melhores Preços</h3>
+        <p>Garantimos os melhores preços ou reembolsamos a diferença.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-headset"></i>
+        <h3>Suporte 24/7</h3>
+        <p>Nossa equipe está disponível a qualquer momento para ajudar.</p>
+      </div>
+      <div class="feature-card">
+        <i class="fas fa-shield-alt"></i>
+        <h3>Reservas Seguras</h3>
+        <p>Seus dados estão protegidos com nossa criptografia avançada.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-section">
+        <h4>TravelStay</h4>
+        <p>Encontre as melhores opções de hospedagem para suas viagens.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h4>Links Rápidos</h4>
+        <ul>
+          <li><a href="#">Sobre nós</a></li>
+          <li><a href="#">Contato</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Termos de uso</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Suporte</h4>
+        <ul>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Central de ajuda</a></li>
+          <li><a href="#">Política de privacidade</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Newsletter</h4>
+        <p>Assine para receber ofertas exclusivas.</p>
+        <form id="newsletter-form">
+          <input type="email" placeholder="Seu e-mail" required>
+          <button type="submit">Assinar</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 TravelStay. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <!-- Modais -->
+  <div class="modal" id="login-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Entrar na sua conta</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="login-email">E-mail</label>
+          <input type="email" id="login-email" required>
+        </div>
+        <div class="form-group">
+          <label for="login-password">Senha</label>
+          <input type="password" id="login-password" required>
+        </div>
+        <button type="submit" class="btn-primary">Entrar</button>
+        <p>Não tem uma conta? <a href="#" id="show-register">Cadastre-se</a></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="register-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Criar uma conta</h2>
+      <form id="register-form">
+        <div class="form-group">
+          <label for="register-name">Nome completo</label>
+          <input type="text" id="register-name" required>
+        </div>
+        <div class="form-group">
+          <label for="register-email">E-mail</label>
+          <input type="email" id="register-email" required>
+        </div>
+        <div class="form-group">
+          <label for="register-phone">Telefone (opcional)</label>
+          <input type="tel" id="register-phone">
+        </div>
+        <div class="form-group">
+          <label for="register-password">Senha</label>
+          <input type="password" id="register-password" required>
+        </div>
+        <div class="form-group">
+          <label for="register-confirm">Confirmar senha</label>
+          <input type="password" id="register-confirm" required>
+        </div>
+        <button type="submit" class="btn-primary">Cadastrar</button>
+        <p>Já tem uma conta? <a href="#" id="show-login">Faça login</a></p>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="booking-modal">
+    <div class="modal-content">
+      <span class="close-modal">&times;</span>
+      <h2>Reservar acomodação</h2>
+      <div id="booking-details"></div>
+      <form id="booking-form">
+        <div class="form-group">
+          <label for="booking-checkin">Check-in</label>
+          <input type="date" id="booking-checkin" required>
+        </div>
+        <div class="form-group">
+          <label for="booking-checkout">Check-out</label>
+          <input type="date" id="booking-checkout" required>
+        </div>
+        <div class="form-group">
+          <label for="booking-guests">Hóspedes</label>
+          <select id="booking-guests" required>
+            <option value="1">1 hóspede</option>
+            <option value="2" selected>2 hóspedes</option>
+            <option value="3">3 hóspedes</option>
+            <option value="4">4 hóspedes</option>
+            <option value="5">5+ hóspedes</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Confirmar Reserva</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

@@ -322,26 +322,20 @@ function validateRegisterForm(name, email, password, confirmPassword) {
 // Função para processar o cadastro
 async function handleRegistration(userData) {
   try {
-    // Simulação de cadastro (substitua pela chamada real à API)
-    console.log('Dados para cadastro:', userData);
-
-    // Exemplo com fetch (descomente e adapte para sua API):
-    /*
-    const response = await fetch('https://sua-api.com/register', {
+    const response = await fetch('http://localhost:5000/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(userData),
     });
-    
-    if (!response.ok) throw new Error('Erro no cadastro');
-    
-    const data = await response.json();
-    */
 
-    // Simulação de sucesso
-    alert('Cadastro realizado com sucesso! Verifique seu e-mail para confirmação.');
+    const data = await response.json();
+    console.log("Resposta do servidor:", data); // Adicione este log
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro no cadastro');
+    }
 
     // Fecha o modal e redireciona ou faz login automático
     hideModals();

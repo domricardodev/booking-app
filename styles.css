@@ -54,6 +54,7 @@ header .container {
   font-size: 24px;
   font-weight: bold;
   color: var(--primary);
+  margin-left: 25px;
 }
 
 .logo i {
@@ -136,11 +137,13 @@ button {
 .hero h1 {
   font-size: 42px;
   margin-bottom: 20px;
+  margin-left: 20px;
 }
 
 .hero p {
   font-size: 18px;
   margin-bottom: 30px;
+  margin-left: 20px;
 }
 
 .search-box {
@@ -151,6 +154,7 @@ button {
   grid-template-columns: repeat(4, 1fr);
   gap: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-left: 20px;
 }
 
 .search-field {

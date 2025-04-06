@@ -15,8 +15,8 @@ class TravelApp:
         try:
             conn = mysql.connector.connect(
                 host="localhost",
-                user="travel_user",
-                password="travel123",
+                user="root", # "travel_user",
+                password="Alpine@187", # "travel123",
                 database="travel_db"
             )
             return conn
